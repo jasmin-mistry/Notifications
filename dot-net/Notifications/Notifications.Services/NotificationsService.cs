@@ -36,19 +36,34 @@ namespace Notifications.Services
 
         public async Task<NotificationModel> CreateEventNotification(EventModel eventModel)
         {
-            var template = await templatesAccess.Get(eventModel.EventType);
+            if (eventModel == null) throw new InvalidEventModelException(nameof(eventModel));
+            if (eventModel.EventType == null) throw new InvalidEventModelException(nameof(eventModel.EventType));
+            if (eventModel.UserId == null || eventModel.UserId == Guid.Empty)
+                throw new InvalidEventModelException(nameof(eventModel.UserId));
+            if (eventModel.Data == null) throw new InvalidEventModelException(nameof(eventModel.Data));
 
-            if (template == null) throw new NotificationEventTypeNotSupportedException(eventModel.EventType);
+            var template = await templatesAccess.Get(eventModel.EventType.GetValueOrDefault());
+
+            if (template == null)
+                throw new NotificationEventTypeNotSupportedException(eventModel.EventType.GetValueOrDefault());
 
             var notification = new NotificationModel
             {
                 EventType = template.EventType,
                 Title = template.Title,
                 UserId = eventModel.UserId,
-                Body = template.BodyText(eventModel.Data)
+                Body = GetPopulatedBody(template.Body, eventModel.Data)
             };
 
             return await notificationsAccess.SaveNotification(notification);
+        }
+
+        private static string GetPopulatedBody(string bodyTemplate, IDataModel data)
+        {
+            var result = bodyTemplate;
+            var properties = data.GetType().GetProperties();
+            return properties.Aggregate(result,
+                (current, property) => current.Replace($"{{{property.Name}}}", property.GetValue(data)?.ToString()));
         }
     }
 }

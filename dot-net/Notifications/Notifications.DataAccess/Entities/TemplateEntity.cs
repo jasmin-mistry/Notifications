@@ -6,7 +6,6 @@ namespace Notifications.DataAccess.Entities
 {
     public class TemplateEntity
     {
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key] public Guid Id { get; set; }
 
         public NotificationEventType EventType { get; set; }

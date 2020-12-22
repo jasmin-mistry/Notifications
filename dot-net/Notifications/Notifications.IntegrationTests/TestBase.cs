@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Notifications.IntegrationTests
 {
@@ -31,13 +32,6 @@ namespace Notifications.IntegrationTests
             var body = await response.Content.ReadAsStringAsync();
             return body;
         }
-
-        //protected async Task<T> GetJsonAs<T>(string url)
-        //{
-        //    var body = await GetJson(url);
-        //    var result = body.DeserializeFromJson<T>();
-        //    return result;
-        //}
 
         protected async Task<HttpResponseMessage> PostJson(string url, dynamic jToken)
         {
@@ -68,9 +62,11 @@ namespace Notifications.IntegrationTests
             return await OneTimeTestSetup.Client.PutAsync(url, message);
         }
 
-        public static string BuildJsonApiPayload<T>(T content)
+        protected static string BuildJsonApiPayload<T>(T content)
         {
-            var payload = JsonConvert.SerializeObject(content);
+            var jsonSettings = new JsonSerializerSettings();
+            jsonSettings.Converters.Add(new StringEnumConverter());
+            var payload = JsonConvert.SerializeObject(content, jsonSettings);
             return payload;
         }
     }

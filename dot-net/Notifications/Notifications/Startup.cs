@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,14 @@ namespace Notifications
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(opt => opt.EnableEndpointRouting = false);
+            services
+                .AddMvc(opt => opt.EnableEndpointRouting = false)
+                .AddJsonOptions(options =>
+                {
+                    // to allow NotificationEventType enum
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                });
 
             services.AddSwaggerGen(c =>
             {
@@ -51,7 +59,7 @@ namespace Notifications
             }
 
             services.AddTransient<INotificationsAccess, NotificationsAccess>();
-            services.AddTransient<ITemplatesAccess, TemplatesesAccess>();
+            services.AddTransient<ITemplatesAccess, TemplatesAccess>();
             services.AddTransient<INotificationsService, NotificationsService>();
 
             services.AddAutoMapper(typeof(NotificationsMapProfile));

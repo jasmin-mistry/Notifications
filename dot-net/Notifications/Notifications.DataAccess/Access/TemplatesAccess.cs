@@ -7,12 +7,12 @@ using Notifications.Common.Models.Enums;
 
 namespace Notifications.DataAccess.Access
 {
-    public class TemplatesesAccess : ITemplatesAccess
+    public class TemplatesAccess : ITemplatesAccess
     {
         private readonly NotificationsDbContext dbContext;
         private readonly IMapper mapper;
 
-        public TemplatesesAccess(NotificationsDbContext dbContext, IMapper mapper)
+        public TemplatesAccess(NotificationsDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;

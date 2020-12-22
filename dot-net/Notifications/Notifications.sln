@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2041
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications", "Notifications\Notifications.csproj", "{648BA88D-FFD3-4C3A-877B-AAC9FF85AA56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifications", "Notifications\Notifications.csproj", "{648BA88D-FFD3-4C3A-877B-AAC9FF85AA56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.DataAccess", "Notifications.DataAccess\Notifications.DataAccess.csproj", "{3D23BB85-94EC-4301-8030-0874E5C5B6CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifications.DataAccess", "Notifications.DataAccess\Notifications.DataAccess.csproj", "{3D23BB85-94EC-4301-8030-0874E5C5B6CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Services", "Notifications.Services\Notifications.Services.csproj", "{A2A3FB3A-68AD-41FE-B41D-A699495E5E32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifications.Services", "Notifications.Services\Notifications.Services.csproj", "{A2A3FB3A-68AD-41FE-B41D-A699495E5E32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Common", "Notifications.Common\Notifications.Common.csproj", "{89DE6294-2DDE-4226-9831-517E100E913A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifications.Common", "Notifications.Common\Notifications.Common.csproj", "{89DE6294-2DDE-4226-9831-517E100E913A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Tests", "Notifications.Tests\Notifications.Tests.csproj", "{104B27B6-EDF2-47F3-B34A-2E1A63014147}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifications.IntegrationTests", "Notifications.IntegrationTests\Notifications.IntegrationTests.csproj", "{104B27B6-EDF2-47F3-B34A-2E1A63014147}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Services.Tests", "Notifications.Services.Tests\Notifications.Services.Tests.csproj", "{C6569D9D-95BC-4EE6-8BE1-260A1ED713BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{104B27B6-EDF2-47F3-B34A-2E1A63014147}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{104B27B6-EDF2-47F3-B34A-2E1A63014147}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{104B27B6-EDF2-47F3-B34A-2E1A63014147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6569D9D-95BC-4EE6-8BE1-260A1ED713BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6569D9D-95BC-4EE6-8BE1-260A1ED713BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6569D9D-95BC-4EE6-8BE1-260A1ED713BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6569D9D-95BC-4EE6-8BE1-260A1ED713BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

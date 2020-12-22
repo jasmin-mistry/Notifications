@@ -13,12 +13,12 @@ The notification service listens for the ‘Appointment Cancelled’ event and o
 - OrganisationName 
 - Reason
 
-The notification service stores a predefined notification template associated to the Appointment Cancelled event. On generating a new notification, the notificaiton template is retrieved from the store, it’s notification body is interpolated with the event data, and stored with the user id.
+The notification service stores a predefined notification template associated to the Appointment Cancelled event. On generating a new notification, the notification template is retrieved from the store, it’s notification body is interpolated with the event data, and stored with the user id.
 The notification service can return back notifications for a given user id.
 
 ### Instructions:
 Create a table that stores the notification template with the following data:
-- Id: guid
+- Id: GUID
 - EventType: AppointmentCancelled
 - Body: ‘Hi {Firstname}, your appointment with {OrganisationName} at {AppointmentDateTime} has been - cancelled for the following reason: {Reason}.’
 - Title: ‘Appointment Cancelled’
@@ -37,7 +37,7 @@ Handle the event:
 
 Create an API to fetch notifications by user id. 
 
-If you have time, add the ability for a user to establish a socket connection that sends new notifications as they're recieved.
+If you have time, add the ability for a user to establish a socket connection that sends new notifications as they're received.
 
 Include examples of Unit Tests and Integration tests where possible.
 

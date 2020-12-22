@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Notifications.Common.Interfaces;
 using Notifications.DataAccess;
 using Notifications.DataAccess.Access;
+using Notifications.DataAccess.Mapping;
 using Notifications.Services;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace Notifications
 {
@@ -31,29 +27,39 @@ namespace Notifications
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(opt => opt.EnableEndpointRouting = false);
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Notifications API", Version = "v1"});
             });
 
-            var connection = @"Server=.;Database=notifications-db;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<NotificationsDbContext>
-                (options => options.UseSqlServer(connection));
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                services.AddDbContext<NotificationsDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase(new Guid().ToString());
+                });
+            }
+            else
+            {
+                services.AddDbContext<NotificationsDbContext>(optionsBuilder =>
+                {
+                    optionsBuilder.UseSqlServer(connectionString);
+                });
+            }
 
             services.AddTransient<INotificationsAccess, NotificationsAccess>();
+            services.AddTransient<ITemplatesAccess, TemplatesesAccess>();
             services.AddTransient<INotificationsService, NotificationsService>();
+
+            services.AddAutoMapper(typeof(NotificationsMapProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -65,6 +71,9 @@ namespace Notifications
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
         }
     }
 }
